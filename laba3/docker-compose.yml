@@ -1,0 +1,9 @@
+services:
+  logic-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true       # Чтобы можно было вводить выражения
+    tty: true              # Поддержка терминала
+    container_name: laba3
+    restart: unless-stopped
