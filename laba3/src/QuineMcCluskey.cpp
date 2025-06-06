@@ -30,7 +30,7 @@ vector<QuineMcCluskey::Minterm> QuineMcCluskey::group_terms(const vector<string>
     return result;
 }
 
-void QuineMcCluskey::reduce_terms(vector<vector<Minterm>>& groups) {
+void QuineMcCluskey::reduce_terms(const vector<vector<Minterm>>& groups) {
     simplified_terms.clear();
     map<string, bool> checked;
 

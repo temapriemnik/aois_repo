@@ -44,10 +44,10 @@ string knf_to_dnf(const string& knf) {
     return "¬(¬(" + knf + "))";
 }
 
-// Проверка эквивалентности
-bool is_equivalent(const string& f1, const string& f2) {
-    return f1 == f2;
-}
+// // Проверка эквивалентности
+// bool is_equivalent(const string& f1, const string& f2) {
+//     return f1 == f2;
+// }
 
 // Сравнение всех тупиковых форм
 void compare_forms(

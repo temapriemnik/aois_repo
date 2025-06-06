@@ -24,7 +24,7 @@ private:
     vector<string> to_binary_strings(const vector<vector<int>>& terms);
     vector<Minterm> group_terms(const vector<string>& binaries);
     vector<Minterm> combine_terms(const Minterm& m1, const Minterm& m2);
-    void reduce_terms(vector<vector<Minterm>>& groups);
+    void reduce_terms(const vector<vector<Minterm>>& groups);
     string decimal_to_binary(int num, int length);
 };
 
