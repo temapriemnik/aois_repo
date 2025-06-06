@@ -1,4 +1,4 @@
-# Базовый образ с GCC и Python
+# Базовый образ с GCC
 FROM gcc:12 AS builder
 
 WORKDIR /app
@@ -9,6 +9,10 @@ COPY . .
 # Установка зависимостей
 RUN apt update && \
     apt install -y cmake libgtest-dev lcov python3
+
+# Сборка основного исполняемого файла
+RUN mkdir -p build && cd build && \
+    cmake ../src && make main
 
 # Сборка тестов
 RUN mkdir -p tests/build && cd tests/build && \
@@ -25,11 +29,16 @@ RUN cd tests/build && \
 # Проверяем, создан ли отчёт
 RUN ls -la /app/coverage_report
 
-# Не меняем образ — продолжаем использовать тот же
-FROM builder
+# Используем тот же образ для финальной сборки
+FROM gcc:12
 
 # Переключаемся в рабочую папку
 WORKDIR /app
+
+# Копируем основной исполняемый файл, тесты и отчет из предыдущего этапа
+COPY --from=builder /app/build/main .
+COPY --from=builder /app/tests/build/logic_tests .
+COPY --from=builder /app/coverage_report ./coverage_report
 
 # Запускаем Python HTTP-сервер
 EXPOSE 8000
