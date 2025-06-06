@@ -13,7 +13,7 @@ RUN mkdir -p build && cd build && \
     cmake .. && \
     make
 
-# Build and run tests (запускаем тесты из корневой директории)
+# Build and run tests
 RUN mkdir -p build_tests && cd build_tests && \
     cmake .. -DBUILD_TESTS=ON && \
     make && \
@@ -27,10 +27,12 @@ FROM ubuntu:latest
 
 WORKDIR /app
 
+# Копируем оба бинарника и отчет
 COPY --from=builder /app/logic_minimizer .
+COPY --from=builder /app/logic_tests .
 COPY --from=builder /app/build_tests/coverage_report ./coverage_report
 
 RUN apt update && apt install -y python3
 EXPOSE 8000
 
-CMD ["./logic_minimizer"]
+CMD bash -c "cd /app && nohup python3 -m http.server 8000 --directory coverage_report >/dev/null 2>&1 & ./logic_minimizer"
