@@ -3,15 +3,16 @@ project(logic_minimizer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(logic_minimizer
-    src/main.cpp
-    src/Lexer.cpp
-    src/ShuntingYard.cpp
-    src/Evaluator.cpp
-    src/TruthTableGenerator.cpp
-    src/NormalFormBuilder.cpp
-    src/QuineMcCluskey.cpp
-    src/Utils.cpp
-)
+# Основной бинарник в корень
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 
-include_directories(src/)
+option(BUILD_TESTS "Build tests" OFF)
+
+add_subdirectory(src)
+
+if(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+    # Тестовый бинарник тоже в корень
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
+endif()
